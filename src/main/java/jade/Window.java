@@ -36,11 +36,14 @@ public class Window {
         switch (newScene) {
             case 0:
                 currentScene = new LevelEditorScene();
-                //currentScene.init();
+                currentScene.init();
                 break;
             case 1:
                 currentScene = new LevelScene();
+                currentScene.init();
+                //currentScene.init();
                 break;
+
             default:
                 assert false : "Unknown scene '" + newScene + "'";
                 break;
@@ -112,8 +115,10 @@ public class Window {
             // Poll events
             glfwPollEvents();
 
+
             glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
+
 
 
             if (dt >= 0) {
@@ -125,7 +130,7 @@ public class Window {
             endTime = Time.getTime();
             dt = endTime - beginTime;
             beginTime = endTime;
-            System.out.println(1/dt);
+
         }
     }
 
