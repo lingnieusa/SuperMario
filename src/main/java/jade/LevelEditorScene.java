@@ -8,10 +8,14 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 import renderer.Shader;
 import renderer.Texture;
+import util.AssetPool;
 import util.Time;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
@@ -49,7 +53,9 @@ public class LevelEditorScene extends Scene {
     public LevelEditorScene() {
 
     }
-
+    private void loadResources() {
+        AssetPool.getShader("assets/shaders/default.glsl");
+    }
 
     @Override
     public void init() {
@@ -86,6 +92,17 @@ public class LevelEditorScene extends Scene {
         camera.position.y -= dt * 20.0f;
 
         System.out.println("FPS: " + (1.0f / dt));
+
+        if (KeyListener.isKeyPressed(GLFW_KEY_RIGHT)) {
+            camera.position.x += 100f * dt;
+        } else if (KeyListener.isKeyPressed(GLFW_KEY_LEFT)) {
+            camera.position.x -= 100f * dt;
+        }
+        if (KeyListener.isKeyPressed(GLFW_KEY_UP)) {
+            camera.position.y += 100f * dt;
+        } else if (KeyListener.isKeyPressed(GLFW_KEY_DOWN)) {
+            camera.position.y -= 100f * dt;
+        }
 
         for (GameObject go : this.gameObjects) {
             go.update(dt);
