@@ -2,6 +2,7 @@ package jade;
 
 import components.FontRenderer;
 import components.SpriteRenderer;
+import components.Spritesheet;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
@@ -22,54 +23,37 @@ import static org.lwjgl.opengl.GL30.*;
 public class LevelEditorScene extends Scene {
 
 
+    private void loadResources() {
+        AssetPool.getShader("assets/shaders/default.glsl");
 
-    private int vertexID, fragmentID, shaderProgram;
-
-    private float[] vertexArray = {
-            // position               // color                  // UV Coordinates
-            100f,   0f, 0.0f,       1.0f, 0.0f, 0.0f, 1.0f,     1, 1, // Bottom right 0
-            0f,   100f, 0.0f,       0.0f, 1.0f, 0.0f, 1.0f,     0, 0, // Top left     1
-            100f, 100f, 0.0f,       1.0f, 0.0f, 1.0f, 1.0f,     1, 0, // Top right    2
-            0f,     0f, 0.0f,       1.0f, 1.0f, 0.0f, 1.0f,     0, 1  // Bottom left  3
-    };
-
-    // IMPORTANT: Must be in counter-clockwise order
-    private int[] elementArray = {
-            /*
-                    1        2
-                    3        0
-             */
-            2, 1, 0, // Top right triangle
-            0, 1, 3 // bottom left triangle
-    };
-    //Vertex Array Object,Vertex Buffer Object,Element Buffer Object
-    private int vaoID, vboID, eboID;
-    private Shader defaultShader;
-    private Texture testTexture;
-
-    GameObject testObj;
-    private boolean firstTime = false;
+        AssetPool.addSpritesheet("assets/images/spritesheet.png",
+                new Spritesheet(AssetPool.getTexture("assets/images/spritesheet.png"),
+                        16, 16, 26, 0));
+    }
 
     public LevelEditorScene() {
 
     }
-    private void loadResources() {
-        AssetPool.getShader("assets/shaders/default.glsl");
-    }
-
     @Override
     public void init() {
+        loadResources();
+
         this.camera = new Camera(new Vector2f(-250, 0));
 
+        Spritesheet sprites = AssetPool.getSpritesheet("assets/images/spritesheet.png");
+
         GameObject obj1 = new GameObject("Object 1", new Transform(new Vector2f(100, 100), new Vector2f(256, 256)));
-        obj1.addComponent(new SpriteRenderer(AssetPool.getTexture("assets/images/testImage.png")));
+        obj1.addComponent(new SpriteRenderer(sprites.getSprite(0)));
         this.addGameObjectToScene(obj1);
 
         GameObject obj2 = new GameObject("Object 2", new Transform(new Vector2f(400, 100), new Vector2f(256, 256)));
-        obj2.addComponent(new SpriteRenderer(AssetPool.getTexture("assets/images/testImage2.png")));
+        obj2.addComponent(new SpriteRenderer(sprites.getSprite(1)));
         this.addGameObjectToScene(obj2);
 
-        loadResources();
+        GameObject obj3 = new GameObject("Object 1", new Transform(new Vector2f(700, 100), new Vector2f(256, 256)));
+        obj3.addComponent(new SpriteRenderer(sprites.getSprite(2)));
+        this.addGameObjectToScene(obj3);
+
 
     }
 
