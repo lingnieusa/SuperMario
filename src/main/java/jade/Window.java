@@ -138,7 +138,8 @@ public class Window {
             if (dt >= 0) {
                 currentScene.update(dt);
             }
-            this.imguiLayer.update(dt);
+
+            this.imguiLayer.update(dt, currentScene);
             glfwSwapBuffers(glfwWindow);
 
             endTime = Time.getTime();
