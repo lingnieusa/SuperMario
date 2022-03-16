@@ -17,7 +17,12 @@ public class Texture {
     public int getWidth() { return width;}
     public int getHeight() { return height;}
 
-    public Texture(String filepath) {
+//    public Texture(String filepath) {
+//
+//    }
+
+
+    public void init(String filepath) {
         this.filepath = filepath;
 
         // Generate texture on GPU
