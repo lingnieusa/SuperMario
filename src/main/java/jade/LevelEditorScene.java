@@ -44,6 +44,9 @@ public class LevelEditorScene extends Scene {
         loadResources();
 
         this.camera = new Camera(new Vector2f(-250, 0));
+        if (levelLoaded) {
+            return;
+        }
 
         sprites = AssetPool.getSpritesheet("assets/images/spritesheet.png");
 
@@ -68,15 +71,7 @@ public class LevelEditorScene extends Scene {
 
         this.addGameObjectToScene(obj2);
 
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .create();
-        System.out.println(gson.toJson(obj2SpriteRenderer));
-////
-//        String serialized = gson.toJson(obj1);
-//        System.out.println(serialized);
-//        GameObject obj = gson.fromJson(serialized, GameObject.class);
-//        System.out.println(obj);
+
 
     }
     private int spriteIndex = 0;
