@@ -9,7 +9,7 @@ public class MouseListener {
     private static MouseListener instance;
     private double scrollX, scrollY;
     private double xPos, yPos, lastY, lastX;
-    private boolean mouseButtonPressed[] = new boolean[3];
+    private boolean mouseButtonPressed[] = new boolean[9];
     private boolean isDragging;
 
     private MouseListener() {
@@ -41,6 +41,7 @@ public class MouseListener {
         if (action == GLFW_PRESS) {
             if (button < get().mouseButtonPressed.length) {
                 get().mouseButtonPressed[button] = true;
+                get().isDragging = true;
             }
         } else if (action == GLFW_RELEASE) {
             if (button < get().mouseButtonPressed.length) {
@@ -77,13 +78,13 @@ public class MouseListener {
         Vector4f tmp = new Vector4f(currentX, 0, 0, 1);
         tmp.mul(Window.getScene().camera().getInverseProjection()).mul(Window.getScene().camera().getInverseView());
         currentX = tmp.x;
-        System.out.println(currentX);
+        //System.out.println(currentX);
         return currentX;
     }
 
     public static float getOrthoY() {
-        float currentY = getY();
-        currentY = (currentY / (float)Window.getWidth()) * 2.0f - 1.0f;
+        float currentY = Window.getHeight() - getY();
+        currentY = (currentY / (float)Window.getHeight()) * 2.0f - 1.0f;
         Vector4f tmp = new Vector4f(0, currentY, 0, 1);
         tmp.mul(Window.getScene().camera().getInverseProjection()).mul(Window.getScene().camera().getInverseView());
         currentY = tmp.y;
@@ -114,6 +115,13 @@ public class MouseListener {
     public static boolean mouseButtonDown(int button) {
         if (button < get().mouseButtonPressed.length) {
             return get().mouseButtonPressed[button];
+        } else {
+            return false;
+        }
+    }
+    public static boolean mouseButtonUp(int button) {
+        if (button < get().mouseButtonPressed.length) {
+            return !get().mouseButtonPressed[button];
         } else {
             return false;
         }

@@ -1,31 +1,24 @@
-package jade;
+package scenes;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import components.*;
 import imgui.ImGui;
 import imgui.ImVec2;
+import jade.*;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL20;
-import renderer.Shader;
-import renderer.Texture;
+import scenes.Scene;
 import util.AssetPool;
-import util.Time;
-
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL30.*;
 
 public class LevelEditorScene extends Scene {
     Spritesheet sprites;
     GameObject obj1;
     SpriteRenderer obj1Sprite;
+
+    MouseControls mouseControls = new MouseControls();
+
     private void loadResources() {
         AssetPool.getShader("assets/shaders/default.glsl");
 
@@ -96,7 +89,9 @@ public class LevelEditorScene extends Scene {
         } else if (KeyListener.isKeyPressed(GLFW_KEY_DOWN)) {
             camera.position.y -= 100f * dt;
         }
-        MouseListener.getOrthoX();
+
+        mouseControls.update(dt);
+
         for (GameObject go : this.gameObjects) {
             go.update(dt);
         }
@@ -125,9 +120,13 @@ public class LevelEditorScene extends Scene {
 
             ImGui.pushID(i);
             if (ImGui.imageButton(id, spriteWidth, spriteHeight, texCoords[0].x, texCoords[0].y, texCoords[2].x, texCoords[2].y)) {
-                System.out.println("Button " + i + "clicked");
+                GameObject object = Prefabs.generateSpriteObject(sprite, spriteWidth, spriteHeight);
+                mouseControls.pickupObject(object);
+                //System.out.println("picked");
+
             }
             ImGui.popID();
+
 
             ImVec2 lastButtonPos = new ImVec2();
             ImGui.getItemRectMax(lastButtonPos);
