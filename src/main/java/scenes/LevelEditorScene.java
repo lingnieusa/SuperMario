@@ -126,8 +126,7 @@ public class LevelEditorScene extends Scene {
 
             }
             ImGui.popID();
-
-
+            
             ImVec2 lastButtonPos = new ImVec2();
             ImGui.getItemRectMax(lastButtonPos);
             float lastButtonX2 = lastButtonPos.x;
