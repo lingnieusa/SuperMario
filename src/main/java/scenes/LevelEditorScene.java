@@ -94,8 +94,8 @@ public class LevelEditorScene extends Scene {
         }
 
         levelEditorStuff.update(dt);
-
-
+        DebugDraw.addBox2D(new Vector2f(300,300),new Vector2f(80,60),30,new Vector3f(0,1,0),1);
+        DebugDraw.addCircle(new Vector2f(300,300),50);
         for (GameObject go : this.gameObjects) {
             go.update(dt);
         }
