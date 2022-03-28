@@ -45,11 +45,13 @@ public class LevelEditorScene extends Scene {
     }
     @Override
     public void init() {
+        this.camera = new Camera(new Vector2f(-250, 0));
+
         levelEditorStuff.addComponent(new MouseControls());
         levelEditorStuff.addComponent(new GridLines());
+        levelEditorStuff.addComponent(new EditorCamera(this.camera));
         loadResources();
 
-        this.camera = new Camera(new Vector2f(-250, 0));
         sprites = AssetPool.getSpritesheet("assets/images/spritesheets/decorationsAndBlocks.png");
 
 
@@ -88,6 +90,7 @@ public class LevelEditorScene extends Scene {
 
         //System.out.println("FPS: " + (1.0f / dt));
 
+
         if (KeyListener.isKeyPressed(GLFW_KEY_RIGHT)) {
             camera.position.x += 100f * dt;
         } else if (KeyListener.isKeyPressed(GLFW_KEY_LEFT)) {
@@ -100,6 +103,7 @@ public class LevelEditorScene extends Scene {
         }
 
         levelEditorStuff.update(dt);
+        this.camera.adjustProjection();
         DebugDraw.addBox2D(new Vector2f(300,300),new Vector2f(80,60),30,new Vector3f(0,1,0),1);
         DebugDraw.addCircle(new Vector2f(300,300),50);
         for (GameObject go : this.gameObjects) {
