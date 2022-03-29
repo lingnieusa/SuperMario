@@ -68,6 +68,8 @@ public class Window {
         return get().currentScene;
     }
 
+
+
     public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
         init();
@@ -215,4 +217,7 @@ public class Window {
         return 3072.0f/1920.0f;
     }
 
+    public static ImGuiLayer getImguiLayer() {
+        return get().imguiLayer;
+    }
 }
